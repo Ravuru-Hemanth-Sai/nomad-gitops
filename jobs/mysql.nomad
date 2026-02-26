@@ -3,7 +3,6 @@ job "[[ .mysql_job_name ]]" {
   type        = "service"
 
   group "db" {
-    # Persistent storage on your RHEL machine
     volume "mysql_data" {
       type      = "host"
       source    = "mysql_data" 
@@ -24,11 +23,13 @@ job "[[ .mysql_job_name ]]" {
       }
 
       env {
-        # This variable will be pulled from Nomad Ops
         MYSQL_ROOT_PASSWORD = "[[ .mysql_password ]]"
       }
 
       resources {
+        # Note: Do NOT use quotes here. 
+        # Nomad Ops will replace [[ .mysql_cpu ]] with 1000 
+        # resulting in cpu = 1000 (valid HCL)
         cpu    = [[ .mysql_cpu ]]
         memory = [[ .mysql_memory ]]
       }
