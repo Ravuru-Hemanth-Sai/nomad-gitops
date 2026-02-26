@@ -1,4 +1,4 @@
-job "[[ .mysql_job_name ]]" {
+job "mysql-poc-direct" {
   datacenters = ["dc1"]
   type        = "service"
 
@@ -18,20 +18,17 @@ job "[[ .mysql_job_name ]]" {
       }
 
       config {
-        image = "mysql:[[ .mysql_version ]]"
+        image = "mysql:8.0"
         ports = ["db"]
       }
 
       env {
-        MYSQL_ROOT_PASSWORD = "[[ .mysql_password ]]"
+        MYSQL_ROOT_PASSWORD = "TestPassword123!"
       }
 
       resources {
-        # Note: Do NOT use quotes here. 
-        # Nomad Ops will replace [[ .mysql_cpu ]] with 1000 
-        # resulting in cpu = 1000 (valid HCL)
-        cpu    = [[ .mysql_cpu ]]
-        memory = [[ .mysql_memory ]]
+        cpu    = 1000
+        memory = 1024
       }
     }
   }
